@@ -1,7 +1,7 @@
 # Description
 <!-- Please include a summary of the change and which Jira Issues are included. Please also include relevant context. List any dependencies that are required for this change. -->
 
-Issues #
+## Issues:
 - <!-- JIRA-123 -->
 - <!-- JIRA-234 -->
 
