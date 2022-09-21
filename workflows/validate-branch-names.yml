@@ -1,0 +1,36 @@
+# This is a basic workflow to validate branch name complies with standards
+
+name: Validate Branch Name
+
+on:
+  # Runs when a new branch is created
+  create:
+  # Runs on push to all branches except main and develop
+  push:
+    branches:
+    - '**'
+    - '!main'
+    - '!develop'
+
+# Setting up environment variables
+env:
+  BRANCH_NAME: ${{ github.ref_name }} # Get branch name
+  REGEX: '^(feature|bug)+(\/)+([A-Z]{2,})+(-)+([0-9]*)$' # REGEX to ensuring compliance to standard
+  # Error and Success messages
+  FAIL_MESSAGE: "Your branch name does not conform to standards. Your commit will be rejected. You should rename your branch to a valid name and try again. For more information see: https://anixter.atlassian.net/wiki/spaces/DSO/pages/2854125606/WESCO+Branching+Workflow+Guidelines."
+  PASS_MESSAGE: "Branch name conforms to standards."
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  branch-naming-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Branch Name
+        # Validate that BRANCH_NAME matches the REGEX, return PASS_MESSAGE on success or FAIL_MESSAGE on error
+        run: |
+          if [[ ${{ env.BRANCH_NAME }} =~ ${{ env.REGEX }} ]]; then
+            echo ${{ env.PASS_MESSAGE }}
+          else
+            echo ${{ env.FAIL_MESSAGE }}
+            exit 1
+          fi
